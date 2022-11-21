@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
-interface ChartProps {
+export interface ChartProps {
   coinId: string;
 }
 
-interface IHistorical {
+export interface IHistorical {
   time_open: number;
   time_close: number;
   open: number;
@@ -19,6 +21,9 @@ interface IHistorical {
 const Chart = ({ coinId }: ChartProps) => {
   const [data, setData] = useState<IHistorical[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const isDark = useRecoilValue(isDarkAtom);
+
   useEffect(() => {
     fetch(`https://ohlcv-api.nomadcoders.workers.dev/?coinId=${coinId}`)
       .then((res) => res.json())
@@ -49,7 +54,7 @@ const Chart = ({ coinId }: ChartProps) => {
               },
             },
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             stroke: {
               curve: "smooth",
@@ -64,19 +69,19 @@ const Chart = ({ coinId }: ChartProps) => {
               },
               type: "datetime",
               categories: data?.map((price) =>
-                new Date(price.time_close*1000).toISOString()
+                new Date(price.time_close * 1000).toISOString()
               ),
             },
             grid: { show: false },
             fill: {
               type: "gradient",
-              
+
               gradient: { gradientToColors: ["#1A73E8"], stops: [0, 100] },
             },
             colors: ["#B32824"],
             tooltip: {
               x: {
-                format: 'dd/MM/yy',
+                format: "dd/MM/yy",
               },
               y: {
                 formatter: (value) => `${value.toFixed(3)}`,

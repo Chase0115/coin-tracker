@@ -11,7 +11,7 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { fetchCoinInfo } from "../api";
 import { useQuery } from "react-query";
-import {Helmet} from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -158,21 +158,25 @@ function Coin() {
   );
   const { isLoading: priceLoading, data: priceData } = useQuery<IPriceData>(
     ["price", coinId],
-    () => fetchCoinInfo(coinId), {
-      refetchInterval: 60000
+    () => fetchCoinInfo(coinId),
+    {
+      refetchInterval: 60000,
     }
   );
 
   const loading = infoLoading || priceLoading;
 
-  console.log(priceData);
   return (
     <Container>
       <Helmet>
-        <title>{state?.name ? state.name: loading? "Loading...": infoData?.name}</title>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
       </Helmet>
       <Header>
-        <Title>{state?.name ? state.name: loading? "Loading...": infoData?.name}</Title>
+        <Title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </Title>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -200,7 +204,9 @@ function Coin() {
             </InfoBox>
             <InfoBox>
               <p>White Paper:</p>
-              <a href={priceData?.whitepaper.link}>{priceData?.whitepaper.link ? "Click to look": null}</a>
+              <a href={priceData?.whitepaper.link}>
+                {priceData?.whitepaper.link ? "Click to look" : null}
+              </a>
             </InfoBox>
           </InfoList>
 
@@ -218,7 +224,7 @@ function Coin() {
               <Chart coinId={coinId}></Chart>
             </Route>
             <Route path={"/:coinId/price"}>
-              <Price></Price>
+              <Price coinId={coinId}></Price>
             </Route>
           </Switch>
         </>
