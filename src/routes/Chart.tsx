@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
-
 
 export interface IHistorical {
   time_open: number;
@@ -37,11 +36,17 @@ const Chart = () => {
         "Loading chart..."
       ) : (
         <ApexChart
-          type='line'
+          type='candlestick'
           series={[
             {
               name: "Price",
-              data: data?.map((price) => price.close)! as number[],
+              data: data?.map((price) => [
+                price.time_open,
+                price.open,
+                price.high,
+                price.low,
+                price.close,
+              ]),
             },
           ]}
           options={{
@@ -52,12 +57,13 @@ const Chart = () => {
                 show: false,
               },
             },
-            theme: {
-              mode: isDark ? "dark" : "light",
-            },
-            stroke: {
-              curve: "smooth",
-              width: 5,
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#DF7D46",
+                  downward: "#3C90EB",
+                },
+              },
             },
             yaxis: {
               show: false,
@@ -71,13 +77,6 @@ const Chart = () => {
                 new Date(price.time_close * 1000).toISOString()
               ),
             },
-            grid: { show: false },
-            fill: {
-              type: "gradient",
-
-              gradient: { gradientToColors: ["#1A73E8"], stops: [0, 100] },
-            },
-            colors: ["#B32824"],
             tooltip: {
               x: {
                 format: "dd/MM/yy",
