@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
+import { useOutletContext } from 'react-router-dom';
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
 
-export interface ChartProps {
-  coinId: string;
-}
 
 export interface IHistorical {
   time_open: number;
@@ -18,7 +16,8 @@ export interface IHistorical {
   market_cap: number;
 }
 
-const Chart = ({ coinId }: ChartProps) => {
+const Chart = () => {
+  const coinId = useOutletContext();
   const [data, setData] = useState<IHistorical[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

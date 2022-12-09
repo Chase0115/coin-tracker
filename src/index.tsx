@@ -1,9 +1,8 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import {RecoilRoot} from 'recoil'
-
+import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RouterProvider } from 'react-router-dom';
+import Router from './Router';
 
 const queryClient = new QueryClient();
 
@@ -13,8 +12,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <>
     <RecoilRoot>
-      <QueryClientProvider client={queryClient} contextSharing={true}>
-        <App />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={Router}/>
       </QueryClientProvider>
     </RecoilRoot>
   </>

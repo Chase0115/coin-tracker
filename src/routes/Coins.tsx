@@ -3,20 +3,12 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
-import { isDarkAtom } from "../atoms";
-import { useSetRecoilState } from "recoil";
 
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
   margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 2rem;
 `;
 
 const CoinsList = styled.ul``;
@@ -37,11 +29,6 @@ const Coin = styled.li`
       color: ${(props) => props.theme.accentColor};
     }
   }
-`;
-
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-size: 3rem;
 `;
 
 const Loader = styled.span`
@@ -66,8 +53,6 @@ interface ICoin {
 }
 
 function Coins() {
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkMode = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
 
   return (
@@ -75,22 +60,14 @@ function Coins() {
       <Helmet>
         <title>Coin Tracker</title>
       </Helmet>
-      <Header>
-        <Title>Coin Tracker</Title>
-        <button onClick={toggleDarkMode}>ToggleDark</button>
-      </Header>
+
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
           {data?.slice(0, 100).map((item) => (
             <Coin key={item.id}>
-              <Link
-                to={{
-                  pathname: `/${item.id}`,
-                  state: { name: item.name },
-                }}
-              >
+              <Link to={`/${item.id}`}>
                 <Img
                   src={`https://coinicons-api.vercel.app/api/icon/${item.symbol.toLowerCase()}`}
                   alt=''
