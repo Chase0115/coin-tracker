@@ -20,7 +20,7 @@ const Chart = () => {
   const [data, setData] = useState<IHistorical[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const isDark = useRecoilValue(isDarkAtom);
+
 
   useEffect(() => {
     fetch(`https://ohlcv-api.nomadcoders.workers.dev/?coinId=${coinId}`)

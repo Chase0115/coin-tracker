@@ -8,7 +8,7 @@ import Price from "./routes/Price";
 
 const Router = createBrowserRouter([
   {
-    path: `${process.env.PUBLIC_URL}/`,
+    path: "/",
     element: <App />,
     children: [
       {
