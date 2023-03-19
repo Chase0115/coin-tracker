@@ -1,4 +1,6 @@
-#Coint Tracker
+# Coint Tracker
+
+link: https://chase0115.github.io/coin-tracker/
 
 This project for checking the coin's price and chart. you can change from dark mode to bright mode.
 
